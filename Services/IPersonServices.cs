@@ -4,9 +4,9 @@ namespace APIAssigment1.Services
     public interface IPersonServices
     {
         List<PersonModel> GetAll();
-        PersonModel? GetOne(int index);
+        PersonModel? GetOne(Guid id);
         PersonModel Create(PersonModel model);
-        PersonModel? Update(int index, PersonModel model);
-        PersonModel? Delete(int index);
+        PersonModel? Update(Guid id, PersonModel model);
+        PersonModel? Delete(Guid id);
     }
 }

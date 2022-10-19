@@ -5,6 +5,7 @@ namespace APIAssigment1.Models
 {
     public class PersonCreateModel
     {
+        public Guid Id { get; set; }
         [DisplayName("First Name")]
         [Required(ErrorMessage = "First Name is requied")]
         public string? FirstName { get; set; }

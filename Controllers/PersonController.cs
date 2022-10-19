@@ -24,7 +24,7 @@ public class PersonController : ControllerBase
         return from item in data
                select new PersonDetailModel
                {
-                   ID = item.ID,
+                   Id = item.Id,
                    FirstName = item.FirstName,
                    LastName = item.LastName,
                    Gender = item.Gender,
@@ -33,19 +33,19 @@ public class PersonController : ControllerBase
                    BirthPlace = item.BirthPlace
                };
     }
-    [HttpGet("users/{index:int}")]
-    public IActionResult GetOne(int index)
+    [HttpGet("users/{id:Guid}")]
+    public IActionResult GetOne(Guid id)
     {
         try
         {
-            var data = _personServices.GetOne(index);
+            var data = _personServices.GetOne(id);
             if (data == null)
             {
                 return NotFound();
             }
             return new JsonResult(new PersonDetailModel
             {
-                ID = data.ID,
+                Id = data.Id,
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 Gender = data.Gender,
@@ -70,7 +70,8 @@ public class PersonController : ControllerBase
         try
         {
             var person = new PersonModel
-            {
+            {   
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Gender = model.Gender,
@@ -89,8 +90,8 @@ public class PersonController : ControllerBase
         }
     }
 
-    [HttpPut("users/{index:int}")]
-    public IActionResult Update(int index, PersonUpdateModel model)
+    [HttpPut("users/{id:Guid}")]
+    public IActionResult Update(Guid id, PersonUpdateModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -98,7 +99,7 @@ public class PersonController : ControllerBase
         }
         try
         {
-            var data = _personServices.GetOne(index);
+            var data = _personServices.GetOne(id);
             if (data == null)
             {
                 return NotFound();
@@ -108,7 +109,7 @@ public class PersonController : ControllerBase
             data.PhoneNumber = model.PhoneNumber;
             data.BirthPlace = model.BirthPlace;
 
-            var result = _personServices.Update(index, data);
+            var result = _personServices.Update(id, data);
             return new JsonResult(result);
         }
         catch (Exception)
@@ -117,17 +118,17 @@ public class PersonController : ControllerBase
         }
     }
 
-    [HttpDelete("users/{index:int}")]
-    public IActionResult Delete(int index)
+    [HttpDelete("users/{id:Guid}")]
+    public IActionResult Delete(Guid id)
     {
         try
         {
-            var data = _personServices.GetOne(index);
+            var data = _personServices.GetOne(id);
             if (data == null)
             {
                 return NotFound();
             }
-            var result = _personServices.Delete(index);
+            var result = _personServices.Delete(id);
             return new JsonResult(result);
         }
         catch (Exception)

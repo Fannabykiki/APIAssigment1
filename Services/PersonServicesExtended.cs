@@ -3,11 +3,11 @@ namespace APIAssigment1.Services
 {
     public class PersonServicesExtended : IPersonServices
     {
-        private static List<PersonModel> listPerson = new List<PersonModel>
+        private static List<PersonModel> _listPerson = new List<PersonModel>
         {
             new PersonModel
-            {   
-                ID = Guid.NewGuid(),
+            {
+                Id = Guid.NewGuid(),
                 FirstName = "Phan",
                 LastName = "Nam",
                 Gender = "Male",
@@ -18,7 +18,7 @@ namespace APIAssigment1.Services
             },
             new PersonModel
             {
-                ID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 FirstName = "Tran",
                 LastName = "Linh",
                 Gender = "Male",
@@ -29,7 +29,7 @@ namespace APIAssigment1.Services
             },
             new PersonModel
             {
-                ID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 FirstName = "Dao",
                 LastName = "Trang",
                 Gender = "FeMale",
@@ -40,7 +40,7 @@ namespace APIAssigment1.Services
             },
             new PersonModel
             {
-                ID = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 FirstName = "Duy",
                 LastName = "Anh",
                 Gender = "FeMale",
@@ -53,41 +53,39 @@ namespace APIAssigment1.Services
 
         public List<PersonModel> GetAll()
         {
-            return listPerson;
+            return _listPerson;
         }
 
-        public PersonModel? GetOne(int index)
+        public PersonModel? GetOne(Guid id)
         {
-            if (index >= 0 && index < listPerson.Count)
-            {
-                return listPerson[index];
-            }
-            return null;
+            return _listPerson.SingleOrDefault(p => p.Id.Equals(id));
         }
 
         public PersonModel Create(PersonModel model)
         {
-            listPerson.Add(model);
+            _listPerson.Add(model);
             return model;
         }
 
-        public PersonModel? Update(int index, PersonModel model)
+        public PersonModel? Update(Guid id, PersonModel model)
         {
-            if (index >= 0 && index < listPerson.Count)
+            var index = _listPerson.FindIndex(p => p.Id.Equals(id));
+            if (index >= 0)
             {
-                listPerson[index] = model;
-                return model;
+                _listPerson[index] = model;
+                return _listPerson[index];
             }
             return null;
         }
 
-        public PersonModel? Delete(int index)
+        public PersonModel? Delete(Guid id)
         {
-            if (index >= 0 && index < listPerson.Count)
+            var index = _listPerson.FindIndex(p => p.Id.Equals(id));
+            if (index >= 0)
             {
-                var person = listPerson[index];
-                listPerson.RemoveAt(index);
-                return person; 
+                var deleted = _listPerson[index];
+                _listPerson.RemoveAt(index);
+                return deleted;
             }
             return null;
         }
